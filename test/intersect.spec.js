@@ -10,8 +10,8 @@ tap.test('intersect', t => {
       0, 0.0, -1
     );
     let t1 = triangle.new(
-      0, 1, 0,
-      -0.5, -1, 0,
+      0,    1, 0,
+     -0.5, -1, 0,
       0.5, -1, 0
     );
     let out = vec3.create();
@@ -33,8 +33,8 @@ tap.test('intersect', t => {
       0, -0.2, -1
     );
     let t1 = triangle.new(
-      0, 1, 0,
-      -0.5, -1, 0,
+      0,    1, 0,
+     -0.5, -1, 0,
       0.5, -1, 0
     );
     let out = vec3.create();
@@ -94,20 +94,23 @@ tap.test('intersect', t => {
     vec3.set(axis_x, 1, 0, 0);
     vec3.set(axis_y, 0, 1, 0);
     vec3.set(axis_z, 0, 0, 1);
-    let box_point = vec3.create();
-    vec3.set(box_point, 2, 1, 0);
+
+    let box_center = vec3.create();
+    vec3.set(box_center, 2, 1, 0);
+
     let ori_x = vec3.create();
     let ori_y = vec3.create();
     let ori_z = vec3.create();
-    let ori_point = vec3.create();
+    let ori_center = vec3.create();
     let angle = (-45) * Math.PI / 180;
     let ori_rot = vec3.create();
     vec3.rotateZ(ori_x, axis_x, ori_rot, angle);
     vec3.rotateZ(ori_y, axis_y, ori_rot, angle);
     vec3.rotateZ(ori_z, axis_z, ori_rot, angle);
-    vec3.rotateZ(ori_point, box_point, ori_rot, angle);
+    vec3.rotateZ(ori_center, box_center, ori_rot, angle);
+
     let b1 = box.new(
-      ori_point.x, ori_point.y, ori_point.z,
+      ori_center.x, ori_center.y, ori_center.z,
       1, 1, 1,
       ori_x.x, ori_x.y, ori_x.z,
       ori_y.x, ori_y.y, ori_y.z,
@@ -115,6 +118,7 @@ tap.test('intersect', t => {
     );
     let out = vec3.create();
     let intersects = intersect.ray_box(r1, b1, out);
+
     t.assert(intersects);
     t.equal_v3(out, [Math.sqrt(2), 0, 0]);
 
