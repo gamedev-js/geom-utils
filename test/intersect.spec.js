@@ -111,16 +111,83 @@ tap.test('intersect', t => {
 
     let b1 = box.new(
       ori_center.x, ori_center.y, ori_center.z,
-      1, 1, 1,
+      1, 3, 3,
       ori_x.x, ori_x.y, ori_x.z,
       ori_y.x, ori_y.y, ori_y.z,
       ori_z.x, ori_z.y, ori_z.z,
     );
     let out = vec3.create();
     let intersects = intersect.ray_box(r1, b1, out);
-
     t.assert(intersects);
     t.equal_v3(out, [Math.sqrt(2), 0, 0]);
+
+    t.end();
+  });
+
+  t.test('box_box', t => {
+    let r1 = ray.new(
+      0, 0, 0,
+      1, 0, 0
+    );
+    let axis_x = vec3.create();
+    let axis_y = vec3.create();
+    let axis_z = vec3.create();
+    vec3.set(axis_x, 1, 0, 0);
+    vec3.set(axis_y, 0, 1, 0);
+    vec3.set(axis_z, 0, 0, 1);
+
+    let box_center = vec3.create();
+    vec3.set(box_center, 2, 1, 0);
+
+    let ori_x = vec3.create();
+    let ori_y = vec3.create();
+    let ori_z = vec3.create();
+    let ori_center = vec3.create();
+    let angle = 45 * Math.PI / 180;
+    let ori_rot = vec3.create();
+    vec3.rotateZ(ori_x, axis_x, ori_rot, angle);
+    vec3.rotateZ(ori_y, axis_y, ori_rot, angle);
+    vec3.rotateZ(ori_z, axis_z, ori_rot, angle);
+    vec3.rotateZ(ori_center, box_center, ori_rot, angle);
+
+    let b0 = box.new(
+      ori_center.x, ori_center.y, ori_center.z,
+      1, 3, 3,
+      ori_x.x, ori_x.y, ori_x.z,
+      ori_y.x, ori_y.y, ori_y.z,
+      ori_z.x, ori_z.y, ori_z.z,
+    );
+    let b1 = box.new(
+      -1, 2, 3,
+      1, 2, 3,
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1,
+    );
+
+    let intersects = intersect.box_box(b0, b1);
+
+    t.equal(intersects, true);
+
+    t.end();
+  });
+
+  t.test('sphere_sphere', t => {
+    let s0 = sphere.new(2, 2, 2, 1);
+    let s1 = sphere.new(3, 2, 2, 1);
+    let intersects = intersect.sphere_sphere(s0, s1);
+
+    t.equal(intersects, true);
+
+    t.end();
+  });
+
+  t.test('sphere_box', t => {
+    let s = sphere.new(2, 2, 0, 1);
+    let b = box.new(2, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1);
+    let intersects = intersect.sphere_box(s, b);
+
+    t.equal(intersects, true);
 
     t.end();
   });
