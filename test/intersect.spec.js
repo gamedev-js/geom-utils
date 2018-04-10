@@ -114,7 +114,7 @@ tap.test('intersect', t => {
       1, 3, 3,
       ori_x.x, ori_x.y, ori_x.z,
       ori_y.x, ori_y.y, ori_y.z,
-      ori_z.x, ori_z.y, ori_z.z,
+      ori_z.x, ori_z.y, ori_z.z
     );
     let out = vec3.create();
     let intersects = intersect.ray_box(r1, b1, out);
@@ -125,10 +125,6 @@ tap.test('intersect', t => {
   });
 
   t.test('box_box', t => {
-    let r1 = ray.new(
-      0, 0, 0,
-      1, 0, 0
-    );
     let axis_x = vec3.create();
     let axis_y = vec3.create();
     let axis_z = vec3.create();
@@ -155,14 +151,14 @@ tap.test('intersect', t => {
       1, 3, 3,
       ori_x.x, ori_x.y, ori_x.z,
       ori_y.x, ori_y.y, ori_y.z,
-      ori_z.x, ori_z.y, ori_z.z,
+      ori_z.x, ori_z.y, ori_z.z
     );
     let b1 = box.new(
       -1, 2, 3,
       1, 2, 3,
       1, 0, 0,
       0, 1, 0,
-      0, 0, 1,
+      0, 0, 1
     );
 
     let intersects = intersect.box_box(b0, b1);
